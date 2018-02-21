@@ -18,3 +18,5 @@ from odoo import http
 #         return http.request.render('/home/odoo/devs/addons/dts_reports.object', {
 #             'object': obj
 #         })
+
+#
