@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "/home/odoo/devs/addons/dts_reports",
+    'name': "dts_reports",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -20,16 +20,17 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['dts'],
 
     # always loaded
     'data': [
         # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        # 'views/views.xml',
+        # 'views/templates.xml',
+        'reports/reports_handler_view.xml',
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
+    # # only loaded in demonstration mode
+    # 'demo': [
+    #     'demo/demo.xml',
+    # ],
 }
