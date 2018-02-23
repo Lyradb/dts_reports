@@ -28,6 +28,9 @@
         # 'views/views.xml',
         # 'views/templates.xml',
         'reports/reports_handler_view.xml',
+        'reports/in_out_report_view.xml',
+        'reports/templates/incoming_report_templates.xml',
+        'reports/templates/outgoing_report_templates.xml',
     ],
     # # only loaded in demonstration mode
     # 'demo': [

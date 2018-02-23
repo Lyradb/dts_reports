@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="incoming_report_templates">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+
+                <t t-call="report.external_layout">
+                    <div class="page">
+                        <table width="100%" style="font-size:12px;">
+                            <tr>
+                                <td class="text-center" colspan="15">
+                                    <h3>
+                                        <strong>
+                                            <p> Incoming Document Report</p>
+                                        </strong>
+                                    </h3>
+                                    <strong>
+                                        <span t-field="o.name" />
+                                    </strong>
+                                </td>
+
+                            </tr>
+                            <br/><br/><br/>
+
+
+                            <tr width="100%">
+                                <td width="50%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="20%">
+                                                <strong>Document Type</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-field="o.document_type_id.name" />
+                                            </td>
+                                        </tr>
+                                        <t t-if="o.delivery_method_id">
+                                            <tr>
+                                            <td width="20%">
+                                                <strong>Delivery Method</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-field="o.delivery_method_id.name" />
+                                            </td>
+                                        </tr>
+                                        </t>
+
+                                        <tr>
+                                            <td width="20%">
+                                                <strong>Recipient</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-field="o.employee_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%">
+                                                <strong>Receiver office</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-field="o.receiver_office_id.name" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <br />
+                                </td>
+                            </tr>
+                             <tr width="100%">
+                                <td width="100%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="20%">
+                                                <strong>Sender</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-field="o.sender_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%">
+                                                <strong>Sender office</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-field="o.sender_office_id.name" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%">
+                                                <strong>Date Send</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-field="o.send_date" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                             </tr>
+                            <tr>
+                                <td>
+                                    <br />
+                                </td>
+                            </tr>
+                            <tr width="100%">
+                                <td width="100%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="20%">
+                                                <strong>Status</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-field="o.state" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="20%">
+                                                <strong>Status Date</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-field="o.state_date" />
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+</odoo>

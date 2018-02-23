@@ -9,7 +9,7 @@
         <!--Payroll Subsidiary-->
 
         <record id="monthlyreport_handler_view_form" model="ir.ui.view">
-            <field name="name">Payroll Subsidiary Report</field>
+            <field name="name">Monthly Report</field>
             <field name="model">monthlyreport.handler</field>
             <field name="arch" type="xml">
                 <form string="Monthly Report">
