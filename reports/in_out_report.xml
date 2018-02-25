@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <!--Incoming-->
+        <report id="incoming_form_report"
+               model="dts.employee.documents"
+               string="Incoming Report"
+               name="dts_reports.incoming_report_templates"
+               report_type="qweb-pdf"/>
+        <!--Outgoing-->
+        <report id="outgoing_form_report"
+               model="dts.document"
+               string="Outgoing Report"
+               name="dts_reports.outgoing_report_templates"
+               report_type="qweb-pdf"/>
+
+
+</odoo>

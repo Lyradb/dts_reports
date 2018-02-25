@@ -6,7 +6,6 @@
               parent="dts.menu_dts_root"
               sequence="400"
               groups="dts.group_dts_document_user"/>
-        <!--Payroll Subsidiary-->
 
         <record id="monthlyreport_handler_view_form" model="ir.ui.view">
             <field name="name">Monthly Report</field>
@@ -16,12 +15,6 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="department_id" required="True" widget="selection"/>
-                            </group>
-                            <br/>
-                        </group>
-                        <group>
-                            <group>
                                 <field name="date_from"/>
                             </group>
 
@@ -29,6 +22,17 @@
                                 <field name="date_to"/>
                             </group>
                         </group>
+                        <group>
+                            <group>
+                                <field name="department_id" required="True" widget="selection"/>
+                                <field name="tracking_type"  widget="radio" />
+                                <field name="outgoing_state" attrs="{'invisible':[('tracking_type','=','incoming')]}"/>
+                                <field name="incoming_state" attrs="{'invisible':[('tracking_type','=','outgoing')]}"/>
+                                <field name="document_type_id"/>
+                            </group>
+                        </group>
+                        
+
                         <footer>
                             <button name="print_monthly_report"
                                         string="Print"
@@ -51,7 +55,6 @@
 			<field name="target">new</field>
         </record>
 
-                <!--Payroll Subsidiary Menu-->
         <menuitem id="monthlyreport_handler_id" action="monthlyreport_handler_view_action"
                   parent="dts.menu_dts_document_reports" name="Monthly Report" sequence="1"/>
 

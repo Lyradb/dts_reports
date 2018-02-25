@@ -15,14 +15,18 @@
                                         </strong>
                                     </h3>
                                     <strong>
-                                        <span t-field="o.name" />
+                                        <span t-field="o.name"/>
                                     </strong>
                                 </td>
 
                             </tr>
-                            <br/><br/><br/>
-
-
+                            <tr>
+                                <td>
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                </td>
+                            </tr>
                             <tr width="100%">
                                 <td width="50%">
                                     <table width="100%">
@@ -48,11 +52,12 @@
                                             <td width="20%">
                                                 <strong>Recipient</strong>
                                             </td>
-                                            <t t-foreach="o.recipient_id" t-as="rec">
-                                                <td>
-                                                    <span t-field="rec.name" />
-                                                </td>
-                                            </t>
+                                            <td width="80%">
+                                                <t t-foreach="o.recipient_id" t-as="rec">
+                                                    <t t-esc="rec.name" />
+                                                </t>
+                                            </td>
+
                                         </tr>
                                         <tr>
                                             <td width="20%">
@@ -89,25 +94,16 @@
                                                 <span t-field="o.sender_office_id.name" />
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td width="20%">
-                                                <strong>Date Send</strong>
-                                            </td>
-                                            <td width="80%">
-                                                <span t-field="o.send_date" />
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                             </tr>
-                            <tr>
-                                <td>
-                                    <br />
-                                </td>
-                            </tr>
-                            <tr width="100%">
-                                <td width="100%">
-                                    <table width="100%">
+                                        <t t-if="o.send_date">
+                                            <tr>
+                                                <td width="20%">
+                                                    <strong>Date Send</strong>
+                                                </td>
+                                                <td width="80%">
+                                                    <span t-field="o.send_date" />
+                                                </td>
+                                            </tr>
+                                        </t>
                                         <tr>
                                             <td width="20%">
                                                 <strong>Status</strong>
@@ -116,18 +112,29 @@
                                                 <span t-field="o.state" />
                                             </td>
                                         </tr>
+                                    </table>
+                                </td>
+                             </tr>
+                            <!--<tr>-->
+                                <!--<td>-->
+                                    <!--<br />-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--<tr width="100%">-->
+                                <!--<td width="100%">-->
+                                    <!--<table width="100%">-->
                                         <!--<tr>-->
                                             <!--<td width="20%">-->
-                                                <!--<strong>Status Date</strong>-->
+                                                <!--<strong>Status</strong>-->
                                             <!--</td>-->
                                             <!--<td width="80%">-->
-                                                <!--<span t-field="o.state_date" />-->
+                                                <!--<span t-field="o.state" />-->
                                             <!--</td>-->
                                         <!--</tr>-->
 
-                                    </table>
-                                </td>
-                            </tr>
+                                    <!--</table>-->
+                                <!--</td>-->
+                            <!--</tr>-->
 
                         </table>
                     </div>

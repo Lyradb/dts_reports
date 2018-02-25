@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="dts_report_paperformat" model="report.paperformat">
+            <field name="name">DTS Paper format</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Landscape</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">5</field>
+            <field name="margin_left">2</field>
+            <field name="margin_right">2</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">5</field>
+            <field name="dpi">90</field>
+        </record>
+
+     <report id="monthly_form_report"
+               model="monthlyreport.handler"
+               string="Monthly Report"
+               report_type="qweb-pdf"
+               name="dts_reports.monthly_report_templates"
+               file="dts_reports.monthly_report_templates"
+               paperformat="dts_reports.dts_report_paperformat"/>
+
+    <template id="monthly_report_templates">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="page">
+                    <h2 class="text-center">MONTHLY <span style="text-transform:uppercase;" t-esc="o.tracking_type"/> REPORTS</h2>
+                    <p style="vertical-align:middle;text-align:center">
+                        <span t-esc="period"/>
+                    </p>
+
+                        <table width="100%" style="font-size:12px;">
+
+                            <t t-if="o.tracking_type == 'incoming'">
+                                <br/>
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">TRANSACTION DATE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">CODE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">RECEIVER OFFICE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">RECIPIENT</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">SENDER OFFICE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">SENDER</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">DOCUMENT TYPE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">DELIVERY METHOD</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">STATE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="dts" t-as="dts">
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.transaction_date"/>
+                                    </td><td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.receiver_office_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.employee_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.sender_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.sender_office_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.document_type_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.delivery_method_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.state"/>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                            </t>
+                            <!--outgoing-->
+                            <t t-if="o.tracking_type == 'outgoing'">
+                            <br/>
+                            <thead>
+                                <tr>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">TRANSACTION DATE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">CODE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">RECEIVER OFFICE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">RECIPIENT</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">SENDER OFFICE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">SENDER</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">DOCUMENT TYPE</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">DELIVERY METHOD</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">STATE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="dts" t-as="dts">
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.transaction_date"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <t t-foreach="dts.recipient_id" t-as="dept">
+                                            <span t-esc="dept.department_id.name"/>
+                                        </t>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <t t-foreach="dts.recipient_id" t-as="dept">
+                                            <span t-esc="dept.name"/>
+                                        </t>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.sender_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.sender_office_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.document_type_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.delivery_method_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-esc="dts.state"/>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+    </template>
+</odoo>
