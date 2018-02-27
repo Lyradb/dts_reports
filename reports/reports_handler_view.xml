@@ -36,7 +36,7 @@
                                     <field name="document_type_id" attrs="{'invisible':[('show_document_type','!=',True)]}"/>
                                     <field name="delivery_method_id" attrs="{'invisible':[('show_delivery_method','!=',True)]}"/>
                                 </group>
-                                <field name="user_id" readonly="1" invisible="1"/>
+                                <!--<field name="user_id" readonly="1" invisible="1"/>-->
                             </group>
 
                         <footer>
