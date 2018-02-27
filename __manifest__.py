@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "dts_reports",
+    'name': "DTS Reports",
 
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as

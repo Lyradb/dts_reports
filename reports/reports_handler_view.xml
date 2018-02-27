@@ -13,25 +13,31 @@
             <field name="arch" type="xml">
                 <form string="Monthly Report">
                     <sheet>
-                        <group>
                             <group>
-                                <field name="date_from"/>
+                                <field name="tracking_type"  widget="selection" invisible="1" readonly="1"/>
                             </group>
-
                             <group>
-                                <field name="date_to"/>
+                                <group>
+                                    <field name="date_from"/>
+                                </group>
+                                <group>
+                                    <field name="date_to"/>
+                                </group>
                             </group>
-                        </group>
-                        <group>
                             <group>
-                                <field name="department_id" required="True" widget="selection"/>
-                                <field name="tracking_type"  widget="radio" />
-                                <field name="outgoing_state" attrs="{'invisible':[('tracking_type','=','incoming')]}"/>
-                                <field name="incoming_state" attrs="{'invisible':[('tracking_type','=','outgoing')]}"/>
-                                <field name="document_type_id"/>
+                                <field name="show_document_type" invisible="1"/>
+                                <field name="show_delivery_method" invisible="1"/>
+                                <group>
+                                    <field name="department_id" widget="selection"/>
+                                    <field name="outgoing_state" attrs="{'invisible':[('tracking_type','=','incoming')]}"/>
+                                    <field name="incoming_state" attrs="{'invisible':[('tracking_type','=','outgoing')]}"/>
+                                </group>
+                                <group>
+                                    <field name="document_type_id" attrs="{'invisible':[('show_document_type','!=',True)]}"/>
+                                    <field name="delivery_method_id" attrs="{'invisible':[('show_delivery_method','!=',True)]}"/>
+                                </group>
+                                <field name="user_id" readonly="1" invisible="1"/>
                             </group>
-                        </group>
-                        
 
                         <footer>
                             <button name="print_monthly_report"
@@ -46,17 +52,38 @@
             </field>
         </record>
 
-        <record id="monthlyreport_handler_view_action" model="ir.actions.act_window">
-            <field name="name">Monthly Report</field>
+        <record id="incoming_monthlyreport_handler_view_action" model="ir.actions.act_window">
+            <field name="name">Incoming Report</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">monthlyreport.handler</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
+            <!--<field name="domain">[('tracking_type','=','incoming')]</field>-->
+            <field name="context">{'default_tracking_type':'incoming'}</field>
 			<field name="target">new</field>
         </record>
 
-        <menuitem id="monthlyreport_handler_id" action="monthlyreport_handler_view_action"
-                  parent="dts.menu_dts_document_reports" name="Monthly Report" sequence="1"/>
+        <record id="outgoing_monthlyreport_handler_view_action" model="ir.actions.act_window">
+            <field name="name">Outgoing Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">monthlyreport.handler</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <!--<field name="domain">[('tracking_type','=','outgoing')]</field>-->
+            <field name="context">{'default_tracking_type':'outgoing'}</field>
+			<field name="target">new</field>
+        </record>
+
+        <menuitem id="monthlyreport_handler_id_incoming"
+                  action="incoming_monthlyreport_handler_view_action"
+                  parent="dts.menu_dts_document_reports"
+                  name="Incoming Reports" sequence="1"/>
+
+        <menuitem id="monthlyreport_handler_id_outgoing"
+                  action="outgoing_monthlyreport_handler_view_action"
+                  parent="dts.menu_dts_document_reports"
+                  name="Outgoing Reports" sequence="2"
+                  groups="dts.group_dts_document_manager"/>
 
     </data>
 </odoo>

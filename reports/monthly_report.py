@@ -1,9 +1,23 @@
 from odoo import api, fields, models
+from openerp.exceptions import ValidationError
 from datetime import date
 import calendar
 
 class MonthlyReportHandler(models.TransientModel):
     _name = 'monthlyreport.handler'
+
+    @api.model
+    def default_get(self, fields):
+        print self.ids
+
+        vals = {}
+        res = super(MonthlyReportHandler, self).default_get(fields)
+        rec = self.env['dts.config'].browse(1)
+        if rec:
+            vals['show_document_type'] = rec.show_document_type
+            vals['show_delivery_method'] = rec.show_delivery_method
+            res.update(vals)
+        return res
 
     def _get_first(self):
         curdate = date.today()
@@ -28,19 +42,24 @@ class MonthlyReportHandler(models.TransientModel):
                              selection=[
                                  ('draft', 'Draft'),
                                  ('send', 'Sent'),
-                             ], default='draft')
+                             ])
     incoming_state = fields.Selection(string="Status",
                              selection=[
                                  ('unread', 'Unread'),
                                  ('read', 'Read Message'),
                                  ('view', 'Viewed Documents'),
                                  ('receive', 'Accepted'),
-                             ], default='unread')
+                             ])
 
-    department_id = fields.Many2one('hr.department', string="Department")
-    document_type_id = fields.Many2one('dts.document.type', string="Document Type")
+    department_id = fields.Many2one('hr.department', string="Department", help="Filters By Department.\nFor Incoming: Senders' Department\nFor Outgoing: Receivers' Department")
     date_from = fields.Date(string="Date From" ,default=_get_first)
     date_to = fields.Date(string="Date To" ,default=_get_second)
+    user_id = fields.Many2one(comodel_name="res.users", string="User", required=False, default=lambda self: self.env.user.id)
+    show_document_type = fields.Boolean(string="Show Document Type", default=True, invisible=True, readonly=True)
+    document_type_id = fields.Many2one('dts.document.type', string="Document Type", domain="[('active', '=', True)]")
+    show_delivery_method = fields.Boolean(string="Show Delivery Method")
+    delivery_method_id = fields.Many2one(comodel_name="dts.document.delivery",string="Delivery Method", domain="[('active', '=', True)]")
+
 
     @api.multi
     def print_monthly_report(self, data):
@@ -60,24 +79,45 @@ class MonthlyReportRender(models.AbstractModel):
         doc_type_id = docs.document_type_id
         out_state = docs.outgoing_state
         in_state = docs.incoming_state
+        user_id = docs.user_id.id
+        delivery_method_id = docs.delivery_method_id
         result = None
 
         if tracking_type == 'incoming':
-                result = self.env['dts.employee.documents'].sudo().search([('receiver_office_id','=',dept_id.id),
-                                                                       ('state', '=', in_state),
-                                                                        ('document_type_id', '=', doc_type_id.id),
-                                                                       ('send_date', '>=', date_f),
-                                                                       ('send_date', '<=', date_t)])
-
+                result = self.env['dts.employee.documents'].sudo().search([('send_date', '>=', date_f),
+                                                                       ('send_date', '<=', date_t),
+                                                                        ('receiver_id', '=', user_id)])
 
         if tracking_type == 'outgoing':
             # for department in dept_id:
+                emp_id = self.env['hr.employee'].search([['user_id','=',user_id]]).id
+                result = self.env['dts.document'].sudo().search([('transaction_date', '>=', date_f),
+                                                                 ('transaction_date', '<=', date_t),
+                                                                ('sender_id', '=', emp_id)])
 
-                result = self.env['dts.document'].sudo().search([('sender_office_id', '=', dept_id.id),
-                                                                ('state', '=', out_state),
-                                                                ('document_type_id', '=', doc_type_id.id),
-                                                                ('transaction_date', '>=', date_f),
-                                                                ('transaction_date', '<=', date_t)])
+        if result:
+            if dept_id:
+                if tracking_type == 'outgoing':
+                    result.filtered(lambda r: r.sender_id.department_id == dept_id.id)
+                if tracking_type == 'incoming':
+                    result.filtered(lambda r: r.sender_office_id == dept_id.id)
+
+            if in_state:
+                result.filtered(lambda r: r.state == in_state)
+
+            elif out_state:
+                result.filtered(lambda r: r.state == out_state)
+
+            if doc_type_id:
+                result.filtered(lambda r: r.document_type_id == doc_type_id.id)
+
+            if delivery_method_id:
+                result.filtered(lambda r: r.delivery_method_id == delivery_method_id.id)
+
+        else:
+            raise ValidationError('No data to generate.')
+
+
         return result
 
     @api.model
