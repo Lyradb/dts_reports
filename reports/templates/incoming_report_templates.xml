@@ -131,6 +131,20 @@
                                     </table>
                                 </td>
                             </tr>
+                            <tr width="100%">
+                                <td width="100%">
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="20%">
+                                                <strong>Message</strong>
+                                            </td>
+                                            <td width="80%">
+                                                <span t-raw="o.message" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
 
                         </table>
                     </div>

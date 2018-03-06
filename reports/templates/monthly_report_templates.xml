@@ -45,6 +45,7 @@
                                     <th style="vertical-align:middle;text-align:center;border:1px solid">SENDER</th>
                                     <th style="vertical-align:middle;text-align:center;border:1px solid">DOCUMENT TYPE</th>
                                     <th style="vertical-align:middle;text-align:center;border:1px solid">DELIVERY METHOD</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">MESSAGE</th>
                                     <th style="vertical-align:middle;text-align:center;border:1px solid">STATE</th>
                                 </tr>
                             </thead>
@@ -74,6 +75,9 @@
                                         <span t-esc="dts.delivery_method_id.name"/>
                                     </td>
                                     <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-raw="dts.message"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
                                         <span t-esc="dts.state"/>
                                     </td>
 
@@ -93,6 +97,7 @@
                                     <th style="vertical-align:middle;text-align:center;border:1px solid">SENDER</th>
                                     <th style="vertical-align:middle;text-align:center;border:1px solid">DOCUMENT TYPE</th>
                                     <th style="vertical-align:middle;text-align:center;border:1px solid">DELIVERY METHOD</th>
+                                    <th style="vertical-align:middle;text-align:center;border:1px solid">MESSAGE</th>
                                     <th style="vertical-align:middle;text-align:center;border:1px solid">STATE</th>
                                 </tr>
                             </thead>
@@ -125,6 +130,9 @@
                                     </td>
                                     <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
                                         <span t-esc="dts.delivery_method_id.name"/>
+                                    </td>
+                                    <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
+                                        <span t-raw="dts.message"/>
                                     </td>
                                     <td style="vertical-align:middle;text-align:left;border:1px solid;padding:5px">
                                         <span t-esc="dts.state"/>
